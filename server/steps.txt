@@ -1,0 +1,8 @@
+openssl genpkey -algorithm RSA -out server-key.pem -aes256 -pkeyopt rsa_keygen_bits:2048
+
+
+
+openssl req -new -key server-key.pem -out server.csr -config san.cnf -extensions v3_req
+
+openssl x509 -req -in server.csr -CA ../ca.pem -CAkey ../ca-key.pem -CAcreateserial \
+  -out server.pem -days 365 -extensions v3_req -extfile san.cnf
